@@ -41,7 +41,7 @@ class TestingServiceProvider extends ServiceProvider
 
         AssertableInertia::macro('hasPaginatedResource', function(string $key, ResourceCollection $resource) {
             $props = $this->toArray()['props'];
-            $post = $props['posts'];
+            $post = $props[$key];
 
             $compiledNewResource = $resource->response()->getData(true);
 
