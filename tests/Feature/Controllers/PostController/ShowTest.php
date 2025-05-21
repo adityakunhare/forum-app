@@ -37,6 +37,6 @@ class ShowTest extends TestCase
 		$comments->load('user');
 
 		$this->get(route('posts.show', $post))
-			->assertHasPaginatedResource('comments', CommentResource::collection($comments));
+			->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
 	}
 }

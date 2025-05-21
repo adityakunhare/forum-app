@@ -19,7 +19,7 @@
 							<div class="flex items-center gap-2 mb-4">
 								<span>
 									<img 
-										src="https://www.w3schools.com/w3images/avatar6.png"
+										:src="comment.user.profile_photo_path == null ?'https://www.w3schools.com/w3images/avatar6.png': comment.user.profile_photo_path"
 										class="rounded-full h-6" 
 									/>
 								</span>
@@ -31,7 +31,7 @@
 							</div>
 						</div>
 					</ul>
-					<Pagination :meta="comments.meta"/>
+					<Pagination :meta="comments.meta" :only="['comments']"/>
 				</div>
 			</div>
 		</Container>
