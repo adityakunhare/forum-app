@@ -59,6 +59,13 @@ class StoreTest extends TestCase
             ->assertInvalid('body');
     }
 
+    public function test_a_guest_cannot_post_a_comment()
+    {
+        $this->post(route('posts.comments.store', $this->post), [
+            'body' => 'This is a comment',
+        ])->assertRedirect(route('login'));
+    }
+
     public static function bodyProvider()
     {
         return [
