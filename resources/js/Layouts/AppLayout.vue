@@ -27,12 +27,12 @@ const logout = () => {
 };
 
 const menu = [
-    {
-        name: "Dashboard",
-        url: route('dashboard'),
-        route: 'dashboard',
-        when: () => usePage().props.auth.user,
-    },
+    // {
+    //     name: "Dashboard",
+    //     url: route('dashboard'),
+    //     route: 'dashboard',
+    //     when: () => usePage().props.auth.user,
+    // },
     {
         name: "Posts",
         url: route('posts.index'),
@@ -56,7 +56,7 @@ const menu = [
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('posts.index')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
