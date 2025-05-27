@@ -92,6 +92,7 @@ import { relativeDate } from '@/Utilities/date.js';
 import { useForm } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
+import { useConfirm } from '@/Utilities/Composables/useConfirm';
 
 let props = defineProps(['post', 'comments']);
 let commentForm = useForm({
@@ -131,7 +132,13 @@ let updateComment = () => {
 	});
 }
 
-let deleteComment = (commentId) => {
+let { confirmation } = useConfirm();
+
+let deleteComment = async (commentId) => {
+	if(! await confirmation('Are you sure you want to delete the comment?')){
+		return;
+	}
+	
 	router.delete(route('comments.destroy',{comment: commentId, page: props.comments.meta.current_page}),{
 		preserveScroll: true
 	})

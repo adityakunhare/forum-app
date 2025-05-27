@@ -4,6 +4,7 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
+import ConfirmationModalWrapper from '@/Components/ConfirmationModalWrapper.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
@@ -40,7 +41,7 @@ const menu = [
     }
 ];
 
-</script>
+</script>//
 
 <template>
     <div>
@@ -309,5 +310,6 @@ const menu = [
                 <slot />
             </main>
         </div>
+        <ConfirmationModalWrapper/>
     </div>
 </template>
