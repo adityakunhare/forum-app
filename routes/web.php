@@ -21,7 +21,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('dashboard');
 
     Route::resource('posts.comments', CommentController::class)->shallow();
+
+    Route::resource('posts', PostController::class)->only(['store']); 
 });
 
-Route::get('posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::resource('posts', PostController::class)->only(['index', 'show']); 

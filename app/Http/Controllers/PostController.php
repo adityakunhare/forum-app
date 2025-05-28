@@ -27,4 +27,17 @@ class PostController extends Controller
             )
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => ['required'],
+            'body' => ['required']
+        ]); 
+
+        $data['user_id'] = $request->user()?->id;
+        $post = Post::create($data);
+
+        return redirect(route('posts.show',$post->id));
+    }
 }
