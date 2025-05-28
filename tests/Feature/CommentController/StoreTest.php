@@ -1,4 +1,4 @@
-``<?php
+<?php
 
 namespace Tests\Feature\CommentController;
 
@@ -42,7 +42,6 @@ class StoreTest extends TestCase
 
     public function test_it_redirects_to_the_post_show_page()
     {
-
         $this->actingAs(User::factory()->create())
             ->post(route('posts.comments.store', $this->post), [
                 'body' => 'This is a comment',

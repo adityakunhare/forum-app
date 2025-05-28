@@ -11,7 +11,7 @@
 
 			<!-- Comment section start -->
 			<div class=" w-full flex justify-center mt-8 border-t pt-8">
-				<div class="max-w-screen-md" v-if="comments.data.length > 0">
+				<div class="max-w-screen-md w-full" >
 					<h2 class="text-xl font-bold">Comments</h2>
 
 					<form 
@@ -39,40 +39,41 @@
 							<SecondaryButton v-if="commentIdBeingEdited" class="ml-2" @click="cancelEdit()">Cancel</SecondaryButton>
 						</div>
 					</form>
+					<div v-if="comments.data.length > 0">
+						<ul class="text-left divide-y" >
+							<div v-for="comment in comments.data" :key="comment.id"
+								class="px-2 py-4 my-2 hover:text-blue-800 ">
+								<div class="flex items-center gap-2 mb-4" >
+									<span>
+										<img :src="comment.user.profile_photo_path == null ? 'https://www.w3schools.com/w3images/avatar6.png' : comment.user.profile_photo_path"
+											class="rounded-full h-6" />
+									</span>
+									<span class="font-bold text-sm"> {{ comment.user?.name }} </span>
+									<span class="text-gray-600 text-xs">{{ relativeDate(comment.created_at) }} ago </span>
 
-					<ul class="text-left divide-y">
-						<div v-for="comment in comments.data" :key="comment.id"
-							class="px-2 py-4 my-2 hover:text-blue-800 ">
-							<div class="flex items-center gap-2 mb-4">
-								<span>
-									<img :src="comment.user.profile_photo_path == null ? 'https://www.w3schools.com/w3images/avatar6.png' : comment.user.profile_photo_path"
-										class="rounded-full h-6" />
-								</span>
-								<span class="font-bold text-sm"> {{ comment.user?.name }} </span>
-								<span class="text-gray-600 text-xs">{{ relativeDate(comment.created_at) }} ago </span>
-
-								<span v-if="comment.can?.delete">
-									<form  @submit.prevent="deleteComment(comment.id)">
-										<button 
-											type="submit"
-											title="Delete" 
-										> 
-											<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 stroke-gray-300 hover:stroke-gray-500"> <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" /> </svg>
-										</button>
-									</form>
-								</span>
-								<span v-if="comment.can?.edit">
-									<button title="Edit" @click="editComment(comment.id)">
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-4 stroke-gray-500 hover:stroke-gray-600"> <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /> </svg>
-									</button>	
-								</span>
+									<span v-if="comment.can?.delete">
+										<form  @submit.prevent="deleteComment(comment.id)">
+											<button 
+												type="submit"
+												title="Delete" 
+											> 
+												<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 stroke-gray-300 hover:stroke-gray-500"> <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" /> </svg>
+											</button>
+										</form>
+									</span>
+									<span v-if="comment.can?.edit">
+										<button title="Edit" @click="editComment(comment.id)">
+											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-4 stroke-gray-500 hover:stroke-gray-600"> <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /> </svg>
+										</button>	
+									</span>
+								</div>
+								<div>
+									<span class="text-gray-600 break-all"> {{ comment.body }}</span>
+								</div>
 							</div>
-							<div>
-								<span class="text-gray-600 break-all"> {{ comment.body }}</span>
-							</div>
-						</div>
-					</ul>
-					<Pagination :meta="comments.meta" :only="['comments']" />
+						</ul>
+						<Pagination :meta="comments.meta" :only="['comments']" />
+					</div>
 				</div>
 			</div>
 		</Container>

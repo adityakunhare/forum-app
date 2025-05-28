@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -16,7 +17,7 @@ class StoreTest extends TestCase
     {
         return [
             'title' => 'Some title',
-            'body' => 'Some body for this post.'
+            'body' => str_repeat('Some body for this post.',50)
         ];
     }
 
@@ -27,9 +28,9 @@ class StoreTest extends TestCase
 
     public function test_it_stores_the_post()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $this->actingAs($user);
-       
         $this->post(route('posts.store'), $this->validData());
         $this->assertDatabaseHas('posts', [...$this->validData(), 'user_id' => $user->id]);
     }
@@ -40,5 +41,34 @@ class StoreTest extends TestCase
         $this->actingAs($user);
         $response = $this->post(route('posts.store'), $this->validData());
         $response->assertRedirect(route('posts.show', Post::latest('id')->first()->id));
+    }
+
+    
+    #[DataProvider('data')] 
+    public function test_it_requires_a_valid_data($badData, $errors)
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->post(route('posts.store'), array_merge($this->validData(), $badData))
+            ->assertSessionHasErrors($errors);
+    }
+
+    public static function data()
+    {
+        return [
+            'title #null' => [['title' => null], 'title'],
+            'title #23'=> [['title' => 23], 'title'],
+            'title #true' => [['title' => true], 'title'],
+            'title #empty' => [['title' => ''], 'title'],
+            'title #2.5' => [['title' => 2.5], 'title'],
+            'title #2501' => [['title' => str_repeat('a', 2501)], 'title'],
+            'body #null' => [['body' => null], 'body'],
+            'body #23'=> [['body' => 23], 'body'],
+            'body #true' => [['body' => true], 'body'],
+            'body #empty' => [['body' => ''], 'body'],
+            'body #2.5' => [['body' => 2.5], 'body'],
+            'body #2501' => [['body' => str_repeat('a', 2501)], 'body'],
+        ];
     }
 }

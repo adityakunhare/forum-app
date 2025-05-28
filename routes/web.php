@@ -22,7 +22,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::resource('posts.comments', CommentController::class)->shallow();
 
-    Route::resource('posts', PostController::class)->only(['store']); 
+    Route::resource('posts', PostController::class)->only(['store','create']); 
 });
 
 Route::resource('posts', PostController::class)->only(['index', 'show']); 

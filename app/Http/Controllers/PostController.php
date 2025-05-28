@@ -12,7 +12,9 @@ class PostController extends Controller
     public function index()
     {
         return Inertia('Posts/Index', [
-            'posts' => PostResource::collection(Post::with('user')->paginate(7)),
+            'posts' => PostResource::collection(
+                Post::with('user')->latest()->latest('id')->paginate(7)
+            ),
         ]);
     }
 
@@ -28,11 +30,17 @@ class PostController extends Controller
         ]);
     }
 
+    public function create(Request $request)
+    {
+        return Inertia('Posts/Create'); 
+    }
+
+
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => ['required'],
-            'body' => ['required']
+            'title' => ['required','min:5','max:255', 'string'],
+            'body' => ['required','string', 'min:100','max:2500']
         ]); 
 
         $data['user_id'] = $request->user()?->id;
