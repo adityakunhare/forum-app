@@ -20,7 +20,10 @@ class PostResource extends JsonResource
             // 'user' => UserResource::make($this->user),
             'title' => $this->title,
             'body' => $this->body,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+           'routes' => [
+                'show' => $this->showRoute(),
+           ]
         ];
     }
 }

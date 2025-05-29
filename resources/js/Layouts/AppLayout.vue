@@ -4,10 +4,10 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
-import ConfirmationModalWrapper from '@/Components/ConfirmationModalWrapper.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ConfirmationModalWrapper from '@/Components/ConfirmationModalWrapper.vue';
 
 defineProps({
     title: String,
@@ -43,7 +43,7 @@ const menu = [
         name: "Create post",
         url: route('posts.create'),
         route: 'posts.create',
-        when: () => usePage().props.auth.user,
+        when: () => usePage().props.permissions.create_posts,
     }
 ];
 
@@ -76,7 +76,7 @@ const menu = [
                                         :href="item.url"
                                         :active="route().current(item.route)"
                                     >
-                                       {{ item.name }} 
+                                       {{ item.name }}
                                     </NavLink>
                                 </template>
                             </div>
@@ -186,7 +186,7 @@ const menu = [
                                 </Dropdown>
                             </div>
                             <div v-else>
-                                <Link :href="route('login')">Logn</Link>        
+                                <Link :href="route('login')">Logn</Link>
                             </div>
                         </div>
 

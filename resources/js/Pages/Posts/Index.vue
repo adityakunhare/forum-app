@@ -2,10 +2,10 @@
 	<AppLayout>
 			<Container>
 				<ul class="divide-y-2" >
-					<li v-for="post in posts.data" :key="post.id" class="px-2 py-4 my-2 hover:text-blue-800 "> 
-						<Link :href="route('posts.show',post.id)">
+					<li v-for="post in posts.data" :key="post.id" class="px-2 py-4 my-2 hover:text-blue-800 ">
+						<Link :href="post.routes.show">
 							<span class="font-bold text-lg ">
-								{{ post.title }} 
+								{{ post.title }}
 							</span>
 							<post-meta-data :created_at="post.created_at" :user="post.user"/>
 						</Link>
