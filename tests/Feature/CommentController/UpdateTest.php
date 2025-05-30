@@ -42,7 +42,7 @@ class UpdateTest extends TestCase
         $this->actingAs($comment->user)
             ->patch(route('comments.update', ['comment' => $comment, 'page' => 2]), [
                 'body' => 'This is my new comment',
-            ])->assertRedirect(route('posts.show', ['post' => $comment->post, 'page' => 2]));
+            ])->assertRedirect($comment->post->showRoute(['page' => 2]));
     }
 
     #[DataProvider('bodyProvider')]

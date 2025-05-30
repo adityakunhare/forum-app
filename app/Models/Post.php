@@ -32,11 +32,12 @@ class Post extends Model
         );
     }
 
-    public function showRoute(): string
+    public function showRoute(array $parameters = []): string
     {
         return route("posts.show", [
             "post" => $this->id,
             "slug" => \Illuminate\Support\Str::slug($this->title),
+            ...$parameters
         ]);
     }
 }

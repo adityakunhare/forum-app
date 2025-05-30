@@ -40,7 +40,7 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
         $response = $this->post(route('posts.store'), $this->validData());
-        $response->assertRedirect(route('posts.show', Post::latest('id')->first()->id));
+        $response->assertRedirect(Post::latest('id')->first()->showRoute());
     }
 
     

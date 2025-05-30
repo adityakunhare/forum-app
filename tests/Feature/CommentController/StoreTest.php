@@ -45,7 +45,7 @@ class StoreTest extends TestCase
         $this->actingAs(User::factory()->create())
             ->post(route('posts.comments.store', $this->post), [
                 'body' => 'This is a comment',
-            ])->assertRedirect(route('posts.show', $this->post));
+            ])->assertRedirect($this->post->showRoute());
     }
 
     #[DataProvider('bodyProvider')]

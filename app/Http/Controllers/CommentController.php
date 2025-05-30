@@ -11,27 +11,25 @@ class CommentController extends Controller
 {
     public function store(Request $request, Post $post)
     {
-        Comment::create([
-            ...$request->validate([
-                "body" => ["required", "string", "max:2500"],
-            ]),
-            "user_id" => $request->user()->id,
-            "post_id" => $post->id,
+        $data = $request->validate([
+            "body" => ["required", "string", "max:2500"],
         ]);
+        $data['user_id'] = $request->user()->id;
+        $data['post_id'] = $post->id;
 
-        return to_route("posts.show", $post)->banner("Comment added.");
+        Comment::create($data);
+        return redirect(
+            $post->showRoute($request->query())
+        )->banner("Comment added.");
     }
 
     public function destroy(Request $request, Comment $comment)
     {
         Gate::authorize("delete", $comment);
-
         $comment->delete();
-
-        return to_route("posts.show", [
-            "post" => $comment->post_id,
-            "page" => $request->query("page"),
-        ])->banner("Comment deleted.");
+        return redirect(
+            $comment->post->showRoute(['page' => $request->query('page')])
+        )->banner('Comment deleted');
     }
 
     public function update(Request $request, Comment $comment)
@@ -41,10 +39,8 @@ class CommentController extends Controller
             "body" => ["required", "string", "max:2500"],
         ]);
         $comment->update($data);
-
-        return to_route("posts.show", [
-            "post" => $comment->post_id,
-            "page" => $request->query("page"),
-        ])->banner("Comment updated.");
+        return redirect(
+            $comment->post->showRoute(["page" => $request->query("page")])
+        )->banner("Comment updated.");
     }
 }

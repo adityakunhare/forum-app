@@ -17,7 +17,7 @@ class ShowTest extends TestCase
 	{
 		$post = Post::factory()->create();
 
-		$this->get(route('posts.show', $post))->assertComponent('Posts/Show');
+		$this->get($post->showRoute())->assertComponent('Posts/Show');
 	}
 
 	public function test_it_passes_a_post_to_the_view()
@@ -26,7 +26,7 @@ class ShowTest extends TestCase
 
 		$post->load('user');
 
-		$this->get(route('posts.show', $post))
+		$this->get($post->showRoute())
 			->assertHasResource('post', PostResource::make($post));
 	}
 
@@ -36,7 +36,33 @@ class ShowTest extends TestCase
 		$comments = Comment::factory(2)->for($post)->create();
 		$comments->load('user');
 
-		$this->get(route('posts.show', $post))
+		$this->get($post->showRoute())
 			->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
 	}
+
+	public function test_it_can_generate_a_route_to_the_show_page()
+	{
+		$post = Post::factory()->create();
+		$this->assertEquals(
+			$post->showRoute(), 
+			route('posts.show',[$post, \Illuminate\Support\Str::slug($post->title)])
+		);
+	}
+
+	public function test_it_can_generate_additional_query_parameters_on_the_show_route()
+	{
+		$post = Post::factory()->create();
+		$this->assertEquals(
+			$post->showRoute(['page' => 2]), 
+			route('posts.show',[$post, \Illuminate\Support\Str::slug($post->title),'page'=> 2])
+		);
+	}
+
+	public function test_it_will_redirect_if_slug_is_incorrect()
+	{
+		$post = Post::factory()->create(['title' => 'hello world']);
+		$response = $this->get(route('posts.show',[$post,'foo-bar','page' => 2]));
+		$response->assertRedirect($post->showRoute(['page' => 2]));
+	}
+
 }

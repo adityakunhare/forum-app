@@ -33,7 +33,8 @@ class DestroyTest extends TestCase
 
         $this->actingAs($comment->user);
         $this->delete(route('comments.destroy', $comment))
-            ->assertRedirect(route('posts.show', Post::find($comment->post_id)));
+            // ->assertRedirect(route('posts.show', Post::find($comment->post_id)));
+            ->assertRedirect($comment->post->showRoute());
     }
 
     public function test_it_prevents_deleting_a_comment_you_didnot_create()
@@ -66,6 +67,7 @@ class DestroyTest extends TestCase
 
         $this->actingAs($comment->user);
         $this->delete(route('comments.destroy', ['comment' => $comment, 'page' => 2]))
-                ->assertRedirect(route('posts.show', ['post' => $comment->post_id, 'page' => 2]));
+                // ->assertRedirect(route('posts.show', ['post' => $comment->post_id, 'page' => 2]));
+                ->assertRedirect($comment->post->showRoute(['page' => 2]));
     }
 }

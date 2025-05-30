@@ -48,6 +48,6 @@ class PostController extends Controller
         $data["user_id"] = $request->user()?->id;
         $post = Post::create($data);
 
-        return redirect(route("posts.show", $post->id));
+        return redirect($post->showRoute($request->query()));
     }
 }
