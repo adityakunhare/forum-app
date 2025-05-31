@@ -1,7 +1,6 @@
 <template>
 	<AppLayout title="Create post">
 		<Container>
-
 			<h1 class="text-2xl font-bold">Create a post</h1>
 			<form @submit.prevent="createPost" class="mt-6">
 				<div>
@@ -14,9 +13,14 @@
 					<InputError class="mt-1" :message="form.errors.title"/>
 				</div>		
 				<div class="mt-4">
-					<TextArea 
+					<MarkdownEditor
 						id="body" 
 						class="w-full" 
+						v-model="form.body"
+					/> 
+					<TextArea 
+						id="body" 
+						class="w-full mt-4" 
 						v-model="form.body" 
 						rows="20"
 					/>
@@ -34,6 +38,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Container from '@/Components/Container.vue';
 import TextArea from '@/Components/TextArea.vue';
+import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
