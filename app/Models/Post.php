@@ -13,7 +13,17 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
-    protected $fillable = ["title", "body", "user_id"];
+    protected $fillable = ["title", "body", "user_id","html"];
+
+    protected static function booted()
+    {
+        static::saving(
+            fn(self $post) => $post->fill([
+                'html' => str($post->body)->markdown()
+            ])
+        );
+    }
+
 
     public function user(): BelongsTo
     {
@@ -31,7 +41,7 @@ class Post extends Model
             get: fn($value) => \Illuminate\Support\Str::title($value)
         );
     }
-
+  
     public function showRoute(array $parameters = []): string
     {
         return route("posts.show", [

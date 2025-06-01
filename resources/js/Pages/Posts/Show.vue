@@ -4,15 +4,13 @@
 
 			<!-- post section starts -->
 			<h1 class="text-2xl font-bold">{{ post.title }}</h1>
-			<post-meta-data :created_at="post.created_at" :user="post.user" />
-			<article class="mt-6">
-				<pre class="whitespace-pre-wrap font-sans">{{ post.body }} </pre>
-			</article>
+			<post-meta-data :created_at="post.created_at" :user="post.user"/>
+			<article class="mt-6 prose prose-sm max-w-none" v-html="post.html"></article>
 
 			<!-- Comment section start -->
 			<div class=" w-full flex justify-center mt-8 border-t pt-8">
 				<div class="max-w-screen-md w-full" >
-					<h2 class="text-xl font-bold">Comments</h2>
+					<h2 v-if="comments.data.length > 0" class="text-xl font-bold">Comments</h2>
 
 					<form 
 						v-if="$page.props.auth.user" 

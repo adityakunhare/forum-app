@@ -18,12 +18,12 @@
 						class="w-full" 
 						v-model="form.body"
 					/> 
-					<TextArea 
+					<!-- <TextArea 
 						id="body" 
 						class="w-full mt-4" 
 						v-model="form.body" 
 						rows="20"
-					/>
+					/> -->
 					<InputError class="mt-1" :message="form.errors.body"/>
 				</div>
 				<div class="mt-3">
