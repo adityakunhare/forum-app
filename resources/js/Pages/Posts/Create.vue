@@ -37,7 +37,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Container from '@/Components/Container.vue';
-import TextArea from '@/Components/TextArea.vue';
 import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';

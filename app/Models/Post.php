@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ConvertsMarkdownToHtml;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,19 +12,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
-    use HasFactory;
+    use HasFactory, ConvertsMarkdownToHtml;
 
-    protected $fillable = ["title", "body", "user_id","html"];
-
-    protected static function booted()
-    {
-        static::saving(
-            fn(self $post) => $post->fill([
-                'html' => str($post->body)->markdown()
-            ])
-        );
-    }
-
+    protected $fillable = ["title", "body", "user_id", "html"];
 
     public function user(): BelongsTo
     {
@@ -38,10 +29,10 @@ class Post extends Model
     public function title(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => \Illuminate\Support\Str::title($value)
+            get: fn ($value) => \Illuminate\Support\Str::title($value)
         );
     }
-  
+
     public function showRoute(array $parameters = []): string
     {
         return route("posts.show", [
