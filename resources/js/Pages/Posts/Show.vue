@@ -18,12 +18,17 @@
 						class="w-full mt-9"
 					>
 						<div >
-							<TextArea 
+						<!-- <TextArea 
 								class="w-full" 
 								rows="3" 
 								v-model="commentForm.body" 
 								placeholder="Speak your mind..." 
-							/>
+							/> -->							
+							<MarkdownEditor  
+								v-model="commentForm.body" 
+								editorClass="min-h-[80px]"
+								placeholder="Write what you think..."
+							/>	
 							<InputError :message="commentForm.errors.body"/>
 						</div>
 
@@ -66,7 +71,8 @@
 									</span>
 								</div>
 								<div>
-									<span class="text-gray-600 break-all"> {{ comment.body }}</span>
+									<!-- <span class="text-gray-600 break-all"> {{ comment.body }}</span> -->
+									 <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>
 								</div>
 							</div>
 						</ul>
@@ -92,6 +98,7 @@ import { useForm } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useConfirm } from '@/Utilities/Composables/useConfirm';
+import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 
 let props = defineProps(['post', 'comments']);
 let commentForm = useForm({

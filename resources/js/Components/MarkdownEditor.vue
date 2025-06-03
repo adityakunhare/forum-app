@@ -154,9 +154,12 @@ import Link from '@tiptap/extension-link';
 import { StarterKit } from '@tiptap/starter-kit';
 import { Markdown } from 'tiptap-markdown'
 import { watch } from 'vue';
+import Placeholder from '@tiptap/extension-placeholder';
 
 let props = defineProps({
 	modelValue: '',
+	editorClass: '', 
+	placeholder: null,
 });
 
 let emit = defineEmits(['update:modelValue']);
@@ -170,11 +173,14 @@ const editor = useEditor({
 		}),
 		Markdown,
 		Underline,
-		Link
+		Link,
+		Placeholder.configure({
+			placeholder: props.placeholder
+		})
 	],
 	editorProps: {
 		attributes: {
-		  	class: 'min-h-[500px] prose prose-sm py-1.5 px-3 max-w-none',
+		  	class: `min-h-[500px] prose prose-sm py-1.5 px-3 max-w-none ${props.editorClass}`,
 		},
 	},
 	onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown()),
@@ -199,3 +205,14 @@ let promptUserForHref = () => {
 	return editor.value?.chain().focus().setLink({href}).run();
 };
 </script>
+
+<style scoped>
+	:deep(.tiptap p.is-editor-empty:first-child::before) {
+		--tw-text-opacity: 1;
+		color: rgb(156 163 175 / var(--tw-text-opacity, 1)) /* #9ca3af */;
+		float: left;
+		/* height: 0; */
+		pointer-events: none;
+		content: attr(data-placeholder);
+	}
+</style>
