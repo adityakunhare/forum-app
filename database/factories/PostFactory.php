@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Support\PostFixtures;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\File;
 class PostFactory extends Factory
 {
 
-    protected static Collection $fixtures;
 
     /**
      * Define the model's default state.
@@ -31,21 +31,7 @@ class PostFactory extends Factory
 
     public function withFixture(): static 
     {
-        $posts =  static::getFixtures()
-                    ->map(fn(string $contents) => str($contents)->explode("\n",2))
-                    ->map(fn(Collection $parts) => [
-                        'title' => str($parts[0])->trim()->after('# '),
-                        'body' => $parts[1]
-                    ]);
-
-        return $this->sequence(...$posts);
+        return $this->sequence(...PostFixtures::getFixtures());
     }
-
-    protected static function getFixtures(): Collection
-    {
-        return self::$fixtures ??= collect(File::files(database_path('factories/Fixtures/Posts')))
-                    ->map(fn ($file) => $file->getContents());
-    }
-
 
 }

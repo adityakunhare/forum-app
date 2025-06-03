@@ -1,0 +1,1 @@
+export let isInProduction = () => import.meta.env.PROD;
