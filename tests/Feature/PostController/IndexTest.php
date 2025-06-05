@@ -2,19 +2,34 @@
 
 namespace Tests\Feature\PostController;
 
+use App\Http\Resources\PostResource;
+use App\Models\Post;
+use App\Models\Topic;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    public function test_it_passes_posts_to_the_view()
+    {
+        $posts = Post::factory(3)->create(); 
+        $posts->load(['user','topic']);
+        $this->get(route('posts.index'))
+            ->assertHasPaginatedResource('posts', PostResource::collection($posts->reverse()));
+    }
+
+
+    public function test_it_can_filter_a_topic()
+    {
+        $general = Topic::factory()->create();
+        $posts = Post::factory(2)->for($general)->create(); 
+        $otherPosts = Post::factory(3)->create();
+
+        $posts->load(['user','topic']);
+        $this->get(route('posts.index', ['topic' => $general]))
+            ->assertHasPaginatedResource('posts', PostResource::collection($posts->reverse()));
     }
 }

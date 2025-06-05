@@ -42,7 +42,6 @@ class StoreTest extends TestCase
         $response = $this->post(route('posts.store'), $this->validData());
         $response->assertRedirect(Post::latest('id')->first()->showRoute());
     }
-
     
     #[DataProvider('data')] 
     public function test_it_requires_a_valid_data($badData, $errors)

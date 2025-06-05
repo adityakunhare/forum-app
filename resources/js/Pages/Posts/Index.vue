@@ -2,13 +2,21 @@
 	<AppLayout>
 			<Container>
 				<ul class="divide-y-2" >
-					<li v-for="post in posts.data" :key="post.id" class="px-2 py-4 my-2 hover:text-blue-800 ">
+					<li v-for="post in posts.data" :key="post.id" class="px-2 py-4 my-2 hover:text-blue-800 flex justify-between ">
 						<Link :href="post.routes.show">
 							<span class="font-bold text-lg ">
 								{{ post.title }}
 							</span>
 							<post-meta-data :created_at="post.created_at" :user="post.user"/>
 						</Link>
+						<div class="mt-4">
+							<Link 
+								href="#"
+								class="rounded-xl border-indigo-600 text-sm border px-2 py-1 mt-8 hover:text-indigo-600 cursor-pointer"
+							>
+								{{ post.topic.name }}	
+							</Link>
+						</div>
 					</li>
 				</ul>
 				<Pagination :meta="posts.meta"/>

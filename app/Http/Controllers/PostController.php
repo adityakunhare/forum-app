@@ -5,17 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\Topic;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Topic $topic)
     {
+        $posts = Post::with(["user","topic"])
+                    ->when($topic, fn(Builder $query) => $query->whereBelongsTo($topic))
+                    ->latest()
+                    ->latest("id")
+                    ->paginate(7);
+
         return Inertia("Posts/Index", [
-            "posts" => PostResource::collection(
-                Post::with("user")->latest()->latest("id")->paginate(7)
-            ),
+            "posts" => PostResource::collection($posts),
         ]);
     }
 
