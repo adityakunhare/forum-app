@@ -3,6 +3,7 @@
 namespace Tests\Feature\PostController;
 
 use App\Http\Resources\PostResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Post;
 use App\Models\Topic;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,5 +32,14 @@ class IndexTest extends TestCase
         $posts->load(['user','topic']);
         $this->get(route('posts.index', ['topic' => $general]))
             ->assertHasPaginatedResource('posts', PostResource::collection($posts->reverse()));
+    }
+
+
+    public function test_it_passes_selected_topic_to_the_view()
+    {
+        $topic = Topic::factory()->create();
+
+        $this->get(route('posts.index', ['topic' => $topic]))
+            ->assertHasResource('selectedTopic', TopicResource::make($topic));
     }
 }

@@ -30,7 +30,7 @@ class TestingServiceProvider extends ServiceProvider
 
          AssertableInertia::macro('hasResource', function(string $key, JsonResource $resource) {
             $props = $this->toArray()['props'];
-            $post = $props['post'];
+            $post = $props[$key];
             $compiledResource = $resource->response()->getData(true);
 
             TestCase::assertArrayHasKey($key, $props);

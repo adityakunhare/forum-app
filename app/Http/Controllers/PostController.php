@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Post;
 use App\Models\Topic;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +13,7 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function index(Topic $topic)
+    public function index(Topic $topic = null)
     {
         $posts = Post::with(["user","topic"])
                     ->when($topic, fn(Builder $query) => $query->whereBelongsTo($topic))
@@ -22,6 +23,7 @@ class PostController extends Controller
 
         return Inertia("Posts/Index", [
             "posts" => PostResource::collection($posts),
+            "selectedTopic" => fn() => $topic ? TopicResource::make($topic) : null,
         ]);
     }
 
