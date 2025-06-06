@@ -7,6 +7,18 @@
 						v-text="selectedTopic ? selectedTopic.name : 'All Posts'"
 					/>
 					<p v-if="selectedTopic" class="text-sm text-gray-600"> {{ selectedTopic.description }}</p>
+
+					<menu class="flex gap-2 mt-4 overflow-x-scroll pb-2 pt-1">
+						<li v-for="topic in topics" :key="topic.id">
+							<Pill 
+								:link="route('posts.index',{topic: topic.slug})"
+								:filled="topic.id === selectedTopic?.id"
+							> 
+								{{ topic.name }}
+							</Pill>	
+						</li>
+					</menu>
+
 				</div>
 
 				<ul class="divide-y-2 mt-4">
@@ -18,12 +30,9 @@
 							<post-meta-data :created_at="post.created_at" :user="post.user"/>
 						</Link>
 						<div class="mt-4">
-							<Link 
-								:href="route('posts.index',{topic: post.topic.slug})"
-								class="rounded-xl border-indigo-600 text-sm border px-2 py-1 mt-8 hover:text-indigo-600 cursor-pointer"
-							>
+							<Pill :link="route('posts.index',{topic: post.topic.slug})">
 								{{ post.topic.name }}	
-							</Link>
+							</Pill>
 						</div>
 					</li>
 				</ul>
@@ -38,11 +47,13 @@ import Container from '@/Components/Container.vue';
 import Pagination from '@/Components/Pagination.vue';
 import PostMetaData from '@/Components/PostMetaData.vue';
 import PageHeading from '@/Components/PageHeading.vue';
+import Pill from '@/Components/Pill.vue';
 import { Link } from '@inertiajs/vue3';
 
 defineProps({
 	posts: Array,
-	selectedTopic: Object 
+	selectedTopic: Object,
+	topics: Array,
 });
 
 </script>

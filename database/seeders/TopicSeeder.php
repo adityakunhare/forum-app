@@ -28,6 +28,16 @@ class TopicSeeder extends Seeder
                 'slug' => 'questions',
                 'name' => 'Quetions',                
                 'description' => 'post about the conspiracies in the world.',                
+           ],
+           [
+                'slug' => 'fun-fac',
+                'name' => 'FunFacts',                
+                'description' => 'This is about the fun fact of the movies.',                
+           ],
+           [
+                'slug' => 'controversy',
+                'name' => 'Convtroversy',                
+                'description' => 'This is all aboout the movie controversy.',                
            ] 
         ];
 
