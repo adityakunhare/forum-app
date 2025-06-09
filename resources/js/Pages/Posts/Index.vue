@@ -1,5 +1,5 @@
 <template>
-	<AppLayout>
+	<AppLayout title="Post list">
 			<Container>
 				<div>
 					<Link v-if="selectedTopic" class="text-indigo-500 hover:text-indigo-600" :href="route('posts.index')"> <b><</b> Back to all posts</Link>
