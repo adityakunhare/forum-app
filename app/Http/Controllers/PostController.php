@@ -33,7 +33,7 @@ class PostController extends Controller
         if (!Str::contains($post->showRoute(), $request->path())) {
             return redirect($post->showRoute($request->query()), 301);
         }
-        $post->load("user");
+        $post->load("user","topic");
         return Inertia("Posts/Show", [
             "post" => fn() => PostResource::make($post),
             "comments" => fn() => CommentResource::collection(
@@ -44,7 +44,9 @@ class PostController extends Controller
 
     public function create(Request $request)
     {
-        return Inertia("Posts/Create");
+        return Inertia("Posts/Create", [
+            'topics' => fn() => TopicResource::collection(Topic::all()),
+        ]);
     }
 
     public function store(Request $request)
@@ -52,9 +54,10 @@ class PostController extends Controller
         $data = $request->validate([
             "title" => ["required", "min:5", "max:255", "string"],
             "body" => ["required", "string", "min:100", "max:2500"],
+            "topic_id" => ["required", "exists:topics,id"]
         ]);
-
         $data["user_id"] = $request->user()?->id;
+
         $post = Post::create($data);
 
         return redirect($post->showRoute($request->query()));

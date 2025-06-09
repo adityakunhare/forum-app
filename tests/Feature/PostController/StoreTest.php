@@ -3,6 +3,7 @@
 namespace Tests\Feature\PostController;
 
 use App\Models\Post;
+use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,6 +18,7 @@ class StoreTest extends TestCase
     {
         return [
             'title' => 'Some title',
+            'topic_id' => Topic::factory()->create()->getKey(),
             'body' => str_repeat('Some body for this post.',50)
         ];
     }
@@ -28,11 +30,15 @@ class StoreTest extends TestCase
 
     public function test_it_stores_the_post()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $this->actingAs($user);
-        $this->post(route('posts.store'), $this->validData());
-        $this->assertDatabaseHas('posts', [...$this->validData(), 'user_id' => $user->id]);
+        $data = value($this->validData());
+
+        $this->post(route('posts.store'), $data);
+        $this->assertDatabaseHas('posts', [
+            ...$data, 
+            'user_id' => $user->id,
+        ]);
     }
 
     public function test_it_redirects_to_the_post_show_page()
@@ -62,6 +68,9 @@ class StoreTest extends TestCase
             'title #empty' => [['title' => ''], 'title'],
             'title #2.5' => [['title' => 2.5], 'title'],
             'title #2501' => [['title' => str_repeat('a', 2501)], 'title'],
+            'topic_id #null' => [['topic_id' => null], 'topic_id'],
+            'topic_id #-1' => [['topic_id' => -3], 'topic_id'],
+            'body #null' => [['body' => null], 'body'],
             'body #null' => [['body' => null], 'body'],
             'body #23'=> [['body' => 23], 'body'],
             'body #true' => [['body' => true], 'body'],

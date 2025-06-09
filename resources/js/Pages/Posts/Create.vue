@@ -11,6 +11,18 @@
 						placeholder="Give it a title"
 					/>
 					<InputError class="mt-1" :message="form.errors.title"/>
+				</div>
+				<div class="mt-4">
+					<InputLabel for="topic_id">Select a topic</InputLabel>
+					<select 
+						id="topic_id" 
+						v-model="form.topic_id"
+						class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
+					>
+						<option :value="topic.id" v-for="topic in topics" :key="topic.id">
+							{{ topic.name }}
+						</option>
+					</select>	
 				</div>		
 				<div class="mt-4">
 					<MarkdownEditor
@@ -50,9 +62,15 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 import { isInProduction } from '@/Utilities/environment';
+import InputLabel from '@/Components/InputLabel.vue';
+
+let props = defineProps({
+	topics:Array 
+});
 
 let form = useForm({
 	title: '',
+	topic_id: props.topics[0].id,
 	body: ''	
 });
 

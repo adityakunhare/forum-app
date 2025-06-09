@@ -14,7 +14,7 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory, ConvertsMarkdownToHtml;
 
-    protected $fillable = ["title", "body", "user_id", "html"];
+    protected $fillable = ["title", "body", "user_id", "html", "topic_id"];
 
     public function user(): BelongsTo
     {

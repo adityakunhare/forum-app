@@ -3,7 +3,10 @@
 		<Container>
 
 			<!-- post section starts -->
-			<h1 class="text-2xl font-bold">{{ post.title }}</h1>
+			 <Pill :link="route('posts.index',{topic:post.topic.slug})" >
+				{{ post.topic.name }}
+			 </Pill>
+			<h1 class="text-2xl font-bold mt-2">{{ post.title }}</h1>
 			<post-meta-data :created_at="post.created_at" :user="post.user"/>
 			<article class="mt-6 prose prose-sm max-w-none" v-html="post.html"></article>
 
@@ -99,6 +102,7 @@ import { router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useConfirm } from '@/Utilities/Composables/useConfirm';
 import MarkdownEditor from '@/Components/MarkdownEditor.vue';
+import Pill from '@/Components/Pill.vue';
 
 let props = defineProps(['post', 'comments']);
 let commentForm = useForm({
