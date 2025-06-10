@@ -24,7 +24,7 @@ class ShowTest extends TestCase
 	{
 		$post = Post::factory()->create();
 
-		$post->load('user');
+		$post->load('user','topic');
 
 		$this->get($post->showRoute())
 			->assertHasResource('post', PostResource::make($post));
