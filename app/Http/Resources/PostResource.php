@@ -21,6 +21,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'body' => $this->body,
             'html' => $this->html,
+            'likes_count' => $this->likes_count,
             'created_at' => $this->created_at,
            'routes' => [
                 'show' => $this->showRoute(),

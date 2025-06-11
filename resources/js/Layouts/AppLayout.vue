@@ -175,6 +175,10 @@ const menu = [
                         <ResponsiveNavLink v-if="$page.props.auth.user" :href="route('posts.create')" :active="route().current('posts.create')">
                             Create Posts
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink v-if="!$page.props.auth.user" :href="route('login')" :active="route().current('login')">
+                            Login
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

@@ -11,6 +11,10 @@
 			 </Pill>
 			<h1 class="text-2xl font-bold mt-2">{{ post.title }}</h1>
 			<post-meta-data :created_at="post.created_at" :user="post.user"/>
+			<div class="mt-4">
+				<span class="text-red-700 font-bold text-sm">{{ post.likes_count }} likes</span>
+			</div>
+
 			<article class="mt-6 prose prose-sm max-w-none" v-html="post.html"></article>
 
 			<!-- Comment section start -->

@@ -16,6 +16,7 @@ class Post extends Model
     use HasFactory, ConvertsMarkdownToHtml;
 
     protected $fillable = ["title", "body", "user_id", "html", "topic_id"];
+    protected $withCount = ['likes'];
 
     public function user(): BelongsTo
     {
