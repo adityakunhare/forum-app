@@ -22,3 +22,6 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified',])->grou
 
 Route::get('posts/{topic?}', [PostController::class,'index'])->name('posts.index'); 
 Route::get('posts/{post}/{slug}', [PostController::class,'show'])->name('posts.show'); 
+Route::get('test-deploy', function(){
+    dd('working like a charm');
+});
