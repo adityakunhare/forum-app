@@ -1,4 +1,7 @@
 <template>
+	<Head>
+		<link rel="canonical" :href="post.routes.show">
+	</Head>
 	<AppLayout :title="post.title">
 		<Container>
 
@@ -75,7 +78,7 @@
 								</div>
 								<div>
 									<!-- <span class="text-gray-600 break-all"> {{ comment.body }}</span> -->
-									 <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>
+									 <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>>
 								</div>
 							</div>
 						</ul>
@@ -94,11 +97,9 @@ import PostMetaData from '@/Components/PostMetaData.vue';
 import Pagination from '@/Components/Pagination.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputError from '@/Components/InputError.vue';
-import TextArea from '@/Components/TextArea.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { relativeDate } from '@/Utilities/date.js';
-import { useForm } from '@inertiajs/vue3';
-import { router } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useConfirm } from '@/Utilities/Composables/useConfirm';
 import MarkdownEditor from '@/Components/MarkdownEditor.vue';
@@ -149,7 +150,13 @@ let deleteComment = async (commentId) => {
 		return;
 	}
 	
-	router.delete(route('comments.destroy',{comment: commentId, page: props.comments.meta.current_page}),{
+	router.delete(route('comments.destroy',{
+		comment: commentId, 
+		page:  props.comments.data.length > 1 
+		? props.comments.meta.current_page
+		: Math.max(props.comments.meta.current_page - 1,1)
+	}),
+	{
 		preserveScroll: true
 	})
 };

@@ -1,5 +1,5 @@
 <template>
-	<span class="block text-sm text-gray-600"> {{ relativeDate(created_at) }} ago by {{ user.name }} </span>
+	<span class="block text-sm text-gray-600"> {{ relativeDate(created_at) }} by {{ user.name }} </span>
 </template>
 
 <script setup>

@@ -48,9 +48,13 @@ import { computed } from 'vue'
 
 let props = defineProps({
   meta: Object,
-  only: Array 
+  only:  {
+    type: Array,
+    default: () => []
+  }
 });
 
+let only = computed(() => props.only.length === 0 ? [] : [...props.only, 'jetstream']);
 let previousUrl = computed(() => props.meta.links[0].url == null ? '#': props.meta.links[0].url  );
 let nextUrl = computed(() => [...props.meta.links].reverse()[0].url == null ? '#': [...props.meta.links].reverse()[0].url);
 

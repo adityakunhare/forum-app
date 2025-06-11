@@ -9,6 +9,7 @@ use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ShowTest extends TestCase
@@ -58,11 +59,22 @@ class ShowTest extends TestCase
 		);
 	}
 
-	public function test_it_will_redirect_if_slug_is_incorrect()
+	#[DataProvider('data')]
+	public function test_it_will_redirect_if_slug_is_incorrect(string $incorrectSlug)
 	{
 		$post = Post::factory()->create(['title' => 'hello world']);
-		$response = $this->get(route('posts.show',[$post,'foo-bar','page' => 2]));
+		$response = $this->get(route('posts.show',[$post,$incorrectSlug,'page' => 2]));
 		$response->assertRedirect($post->showRoute(['page' => 2]));
 	}
+
+	 public static function data()
+	{
+		return [
+			'foo-bar' => ['foo-bar'],
+			'foo' => ['foo'],
+			'hello' => ['hello'],
+		];	
+	}
+
 
 }
