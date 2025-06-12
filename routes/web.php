@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified',])->grou
     Route::resource('posts.comments', CommentController::class)->shallow();
 
     Route::resource('posts', PostController::class)->only(['store','create']); 
+
+    Route::post('/likes/{type}/{id}', [LikeController::class, 'store'])->name('likes.store');
 });
 
 Route::get('posts/{topic?}', [PostController::class,'index'])->name('posts.index'); 
