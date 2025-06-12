@@ -12,7 +12,10 @@
 			<h1 class="text-2xl font-bold mt-2">{{ post.title }}</h1>
 			<post-meta-data :created_at="post.created_at" :user="post.user"/>
 			<div class="mt-4">
-				<span class="text-red-700 font-bold text-sm">{{ post.likes_count }} likes</span>
+				<span class="text-red-700 font-bold text-sm flex items-center gap-1">
+					{{ post.likes_count }} 
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="15px" width="15px" fill="rgba(206,4,4,1)"><path d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853Z"></path></svg>
+				</span>
 			</div>
 
 			<article class="mt-6 prose prose-sm max-w-none" v-html="post.html"></article>
@@ -28,12 +31,6 @@
 						class="w-full mt-9"
 					>
 						<div >
-						<!-- <TextArea 
-								class="w-full" 
-								rows="3" 
-								v-model="commentForm.body" 
-								placeholder="Speak your mind..." 
-							/> -->							
 							<MarkdownEditor  
 								v-model="commentForm.body" 
 								editorClass="min-h-[80px]"
@@ -82,7 +79,13 @@
 								</div>
 								<div>
 									<!-- <span class="text-gray-600 break-all"> {{ comment.body }}</span> -->
-									 <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>>
+									 <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>
+									 <div class="mt-4">
+										<span class="text-red-700 font-bold text-sm flex items-center gap-1">
+											{{ comment.likes_count }} 
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="15px" width="15px" fill="rgba(206,4,4,1)"><path d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853Z"></path></svg>
+										</span>
+									</div>
 								</div>
 							</div>
 						</ul>
