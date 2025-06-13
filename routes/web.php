@@ -21,6 +21,7 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified',])->grou
     Route::resource('posts', PostController::class)->only(['store','create']); 
 
     Route::post('/likes/{type}/{id}', [LikeController::class, 'store'])->name('likes.store');
+    Route::delete('/likes/{type}/{id}', [LikeController::class, 'destroy'])->name('likes.destroy');
 });
 
 Route::get('posts/{topic?}', [PostController::class,'index'])->name('posts.index'); 
