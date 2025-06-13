@@ -14,6 +14,8 @@ use Tests\TestCase;
 
 class ShowTest extends TestCase
 {
+	use RefreshDatabase;
+	
 	public function test_it_can_show_a_post()
 	{
 		$post = Post::factory()->create();

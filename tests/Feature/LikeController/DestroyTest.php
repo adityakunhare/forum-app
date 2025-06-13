@@ -47,9 +47,9 @@ class DestroyTest extends TestCase
         $like = Like::factory()->for($user)->for($likeable,'likeable')->create();
 
         $this->actingAs($user);
-        $this->from($likeable->showRoute());
+        $this->from($likeable->post->showRoute());
         $this->delete(route('likes.destroy',[$likeable->getMorphClass(), $likeable->id]))
-                    ->assertRedirect($likeable->showRoute()); 
+                    ->assertRedirect($likeable->post->showRoute()); 
 
         $this->assertDatabaseEmpty(Like::class);     
 
@@ -67,12 +67,12 @@ class DestroyTest extends TestCase
                     ->assertForbidden();
     }
 
-    public function test_it_only_allows_liking_supported_models()
+    public function test_it_only_allows_unliking_supported_models()
     {
         $user = User::factory()->create();
 
         $this->actingAs($user);
-        $this->post(route('likes.store',[$user->getMorphClass(), $user->id]))         
+        $this->delete(route('likes.destroy',[$user->getMorphClass(), $user->id]))         
             ->assertForbidden();
     }
 
@@ -80,7 +80,7 @@ class DestroyTest extends TestCase
     {
         $this->actingAs(User::factory()->create());
 
-        $this->post(route('likes.store',['foo', 1])) 
+        $this->delete(route('likes.destroy',['foo', 1])) 
             ->assertNotFound();
     }
 
