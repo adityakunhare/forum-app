@@ -9,11 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
-    use HasFactory, ConvertsMarkdownToHtml;
+    use HasFactory, ConvertsMarkdownToHtml, Searchable;
 
     protected $fillable = ["title", "body", "user_id", "html", "topic_id"];
 
@@ -51,5 +54,20 @@ class Post extends Model
             "slug" => \Illuminate\Support\Str::slug($this->title),
             ...$parameters
         ]);
+    }
+
+     /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    #[SearchUsingFullText(['title'])]
+    #[SearchUsingFullText(['body'])]
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'body' => $this->body
+        ];
     }
 }

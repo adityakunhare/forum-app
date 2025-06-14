@@ -11,16 +11,23 @@
 					<menu class="flex gap-2 mt-4 overflow-x-scroll pb-2 pt-1">
 						<li v-for="topic in topics" :key="topic.id">
 							<Pill 
-								:link="route('posts.index',{topic: topic.slug})"
+								:link="route('posts.index',{topic: topic.slug, query: searchForm.query})"
 								:filled="topic.id === selectedTopic?.id"
 							> 
 								{{ topic.name }}
 							</Pill>	
 						</li>
 					</menu>
-
 				</div>
-
+				<div class="mt-4 w-full">
+					<form class="w-full" @submit.prevent="searchQuery" >
+						<InputLabel for="query">Search</InputLabel>
+						<div class="flex gap-2">
+							<TextInput v-model="searchForm.query" class="w-full" id="query"></TextInput>
+							<SecondaryButton type="submit">Search</SecondaryButton>
+						</div>
+					</form>
+				</div>
 				<ul class="divide-y-2 mt-4">
 					<li v-for="post in posts.data" :key="post.id" class="px-2 py-4 my-2 hover:text-blue-800 flex justify-between ">
 						<Link :href="post.routes.show">
@@ -30,7 +37,7 @@
 							<post-meta-data :created_at="post.created_at" :user="post.user"/>
 						</Link>
 						<div class="mt-4">
-							<Pill :link="route('posts.index',{topic: post.topic.slug})">
+							<Pill :link="route('posts.index',{topic: post.topic.slug, query: searchForm.query})">
 								{{ post.topic.name }}	
 							</Pill>
 						</div>
@@ -48,12 +55,25 @@ import Pagination from '@/Components/Pagination.vue';
 import PostMetaData from '@/Components/PostMetaData.vue';
 import PageHeading from '@/Components/PageHeading.vue';
 import Pill from '@/Components/Pill.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
+import InputLabel from '@/Components/InputLabel.vue';
+import TextInput from '@/Components/TextInput.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 
-defineProps({
+let props = defineProps({
 	posts: Array,
 	selectedTopic: Object,
 	topics: Array,
+	query:String,
 });
+
+let searchForm = useForm({
+	query:props.query,
+	page: 1,
+});
+let page = usePage(); 
+
+let searchQuery = () => searchForm.get(page.url);	
+
 
 </script>
