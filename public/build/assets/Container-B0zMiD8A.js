@@ -1,1 +1,0 @@
-import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{d as s,o as t,m as r}from"./app-CbGs38Cc.js";const n={},a={class:"max-w-7xl px-4 mx-auto py-10 sm:px-6 lg:px-8"};function c(o,m){return t(),s("div",a,[r(o.$slots,"default")])}const p=e(n,[["render",c]]);export{p as C};
