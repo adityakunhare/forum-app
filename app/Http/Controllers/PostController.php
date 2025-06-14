@@ -10,21 +10,28 @@ use App\Models\Topic;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Laravel\Scout\Builder as ScoutBuilder;
 
 class PostController extends Controller
 {
-    public function index(Topic $topic = null)
+    public function index(Request $request, Topic $topic = null)
     {
-        $posts = Post::with(["user","topic"])
+        if($request->query('query')){
+            $posts = Post::search($request->query('query'))
+                ->query(fn(Builder $query) => $query->with(['user','topic']))
+                ->when($topic, fn(ScoutBuilder $query) => $query->where('topic_id', $topic->id));
+        } else {
+           $posts = Post::with(["user","topic"])
                     ->when($topic, fn(Builder $query) => $query->whereBelongsTo($topic))
                     ->latest()
-                    ->latest("id")
-                    ->paginate(7);
+                    ->latest("id"); 
+        }
 
         return Inertia("Posts/Index", [
-            "posts" => PostResource::collection($posts),
+            "posts" => PostResource::collection($posts->paginate(7)->withQueryString()),
             "topics" => fn () => TopicResource::collection(Topic::all()),
             "selectedTopic" => fn() => $topic ? TopicResource::make($topic) : null,
+            "query" => $request->query('query'),
         ]);
     }
 

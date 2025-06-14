@@ -29,7 +29,7 @@ class ShowTest extends TestCase
 		$post->load('user','topic');
 
 		$this->get($post->showRoute())
-			->assertHasResource('post', PostResource::make($post));
+			->assertHasResource('post', PostResource::make($post)->withLikePermission());
 	}
 
 	public function test_it_passes_comments_to_the_view()
