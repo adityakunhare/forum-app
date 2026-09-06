@@ -27,7 +27,7 @@ jobs:
 
             git pull origin main
             
-            composer install
+            # composer install
 
             php artisan migrate --force
 
