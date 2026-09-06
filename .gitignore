@@ -22,3 +22,4 @@ yarn-error.log
 /.vscode
 /.zed
 phpunit.xml
+.DS_Store

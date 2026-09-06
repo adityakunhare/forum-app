@@ -39,20 +39,23 @@ class TestingServiceProvider extends ServiceProvider
         });
 
 
-        AssertableInertia::macro('hasPaginatedResource', function(string $key, ResourceCollection $resource) {
-            $props = $this->toArray()['props'];
-            $post = $props[$key];
+        AssertableInertia::macro(
+            'hasPaginatedResource', 
+            function(string $key, ResourceCollection $resource) {
+                $props = $this->toArray()['props'];
+                $post = $props[$key];
 
-            $compiledNewResource = $resource->response()->getData(true);
+                $compiledNewResource = $resource->response()->getData(true);
 
-            TestCase::assertArrayHasKey($key, $props);
-            TestCase::assertEquals($compiledNewResource, $post['data']);
-            TestCase::assertArrayHasKey('data',$post);
-            TestCase::assertArrayHasKey('links',$post);
-            TestCase::assertArrayHasKey('meta',$post);
-            
-            return $this;
-        });
+                TestCase::assertArrayHasKey($key, $props);
+                TestCase::assertEquals($compiledNewResource, $post['data']);
+                TestCase::assertArrayHasKey('data',$post);
+                TestCase::assertArrayHasKey('links',$post);
+                TestCase::assertArrayHasKey('meta',$post);
+                
+                return $this;
+            }
+        );
 
        TestResponse::macro('assertHasResource', function(string $key, JsonResource $resource){
             return $this->assertInertia(fn(AssertableInertia $inertia) => $inertia->hasResource($key,$resource));

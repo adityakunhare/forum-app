@@ -35,15 +35,15 @@ class PostResource extends JsonResource
             'html' => $this->html,
             'likes_count' => Number::abbreviate($this->likes_count),
             'created_at' => $this->created_at,
-           'routes' => [
+            'routes' => [
                 'show' => $this->showRoute(),
-           ],
-           'can' => [
+            ],
+            'can' => [
                 'like' => $this->when(
                     $this->withLikePermission, 
                     fn() => $request->user()?->can('create',[Like::class,$this->resource])
                 )
-           ]
+            ]
         ];
     }
 }
