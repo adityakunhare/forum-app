@@ -30,9 +30,9 @@ jobs:
             # composer install
 
             php artisan migrate --force
-
-            npm run build
-            
             php artisan optimize:clear
             
             php artisan optimize
+
+            npm run build
+            
