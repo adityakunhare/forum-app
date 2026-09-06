@@ -23,7 +23,7 @@ jobs:
           port: ${{ secrets.PORT }}
 
           script: |
-            cd /domains/forum.adityakunhare.com
+            cd /home/u912768491/domains/forum.adityakunhare.com 
 
             git pull origin main
             
