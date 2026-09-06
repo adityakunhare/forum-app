@@ -17,10 +17,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        app()->usePublicPath(
-            base_path(env('LARAVEL_PUBLIC_DIR', 'public'))
+        $this->app->usePublicPath(
+            base_path(env('LARAVEL_PUBLIC_DIR'))
         );
-    }
+    }    
 
     /**
      * Bootstrap any application services.
