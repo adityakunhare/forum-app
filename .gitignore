@@ -2,8 +2,11 @@
 /node_modules
 /public/build
 public/build
+public_html/build
 /public/hot
+public_html/build
 /public/storage
+public_html/build
 /storage/*.key
 /storage/pail
 /vendor
