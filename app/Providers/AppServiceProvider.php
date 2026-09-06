@@ -17,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        app()->usePublicPath(
+            base_path(env('LARAVEL_PUBLIC_DIR', 'public'))
+        );
     }
 
     /**
@@ -28,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         JsonResource::withoutWrapping();
 
         Model::preventLazyLoading();
-       
+
         Relation::enforceMorphMap([
             'post' => Post::class,
             'comment' => Comment::class,
