@@ -27,12 +27,13 @@ jobs:
 
             git pull origin main
             
+            npm run build
+            
             # composer install
 
             php artisan migrate --force
+
             php artisan optimize:clear
-            
-            npm run build
             
             php artisan optimize
 
